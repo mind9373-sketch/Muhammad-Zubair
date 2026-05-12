@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ResumeAI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0d0d0b;
+  --ink2:#3a3832;
+  --ink3:#7a7870;
+  --paper:#f5f2eb;
+  --cream:#ece8df;
+  --gold:#c8a84b;
+  --gold2:#e8c96e;
+  --rule:#d5d0c4;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);overflow-x:hidden}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 6%;
+  background:rgba(245,242,235,0.88);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+}
+.logo{font-family:var(--serif);font-size:1.35rem;color:var(--ink);letter-spacing:0.02em}
+.logo span{color:var(--gold)}
+nav ul{display:flex;gap:36px;list-style:none}
+nav ul a{text-decoration:none;color:var(--ink2);font-size:0.875rem;font-weight:400;letter-spacing:0.03em;transition:color 0.2s}
+nav ul a:hover{color:var(--gold)}
+.nav-btn{
+  padding:9px 20px;border:1.5px solid var(--ink);border-radius:3px;
+  font-family:var(--sans);font-size:0.8rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;
+  background:transparent;color:var(--ink);cursor:pointer;transition:0.2s;text-decoration:none
+}
+.nav-btn:hover{background:var(--ink);color:var(--paper)}
+
+.hero{
+  min-height:100vh;padding:130px 6% 80px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+  position:relative;
+}
+.hero::before{
+  content:"";position:absolute;top:0;right:0;width:50%;height:100%;
+  background:var(--cream);z-index:0;
+}
+.hero-left{position:relative;z-index:1}
+.hero-right{position:relative;z-index:1}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.75rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:24px;
+}
+.eyebrow::before{content:"";display:block;width:28px;height:1.5px;background:var(--gold)}
+
+h1{
+  font-family:var(--serif);font-size:clamp(3rem,5vw,5.2rem);
+  line-height:1.05;color:var(--ink);margin-bottom:28px;
+  letter-spacing:-0.01em;
+}
+h1 em{font-style:italic;color:var(--gold)}
+
+.hero-desc{
+  font-size:1.05rem;line-height:1.8;color:var(--ink3);
+  max-width:460px;margin-bottom:44px;font-weight:300;
+}
+
+.btn-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.btn-fill{
+  padding:14px 32px;background:var(--ink);color:var(--paper);
+  border:none;border-radius:3px;font-family:var(--sans);
+  font-size:0.8rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;
+  cursor:pointer;transition:0.2s;text-decoration:none;display:inline-block;
+}
+.btn-fill:hover{background:var(--ink2)}
+.btn-ghost{
+  padding:14px 32px;background:transparent;color:var(--ink2);
+  border:1.5px solid var(--rule);border-radius:3px;font-family:var(--sans);
+  font-size:0.8rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;
+  cursor:pointer;transition:0.2s;text-decoration:none;display:inline-block;
+}
+.btn-ghost:hover{border-color:var(--ink2)}
+
+.proof-strip{
+  display:flex;gap:32px;margin-top:48px;padding-top:36px;
+  border-top:1px solid var(--rule);
+}
+.proof-item{}
+.proof-num{font-family:var(--serif);font-size:2rem;color:var(--ink);display:block}
+.proof-label{font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3)}
+
+.card-stack{
+  display:flex;flex-direction:column;gap:16px;
+  padding:40px;background:white;border:1px solid var(--rule);border-radius:4px;
+  box-shadow:8px 8px 0 var(--cream),8px 8px 0 1px var(--rule);
+}
+.card-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding-bottom:20px;border-bottom:1px solid var(--rule);margin-bottom:4px;
+}
+.card-name{font-family:var(--serif);font-size:1.4rem;margin-bottom:4px}
+.card-role{font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3)}
+.score-badge{
+  display:flex;flex-direction:column;align-items:center;
+  background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:3px;
+}
+.score-badge .num{font-family:var(--serif);font-size:1.5rem;line-height:1}
+.score-badge .lbl{font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;opacity:0.7;margin-top:2px}
+
+.ats-bar{margin:16px 0}
+.ats-label{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--ink3);margin-bottom:8px;letter-spacing:0.04em}
+.bar-track{height:5px;background:var(--rule);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;background:var(--gold);border-radius:99px;transition:width 1s}
+
+.skill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.skill-tag{
+  padding:5px 12px;border:1px solid var(--rule);border-radius:2px;
+  font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink2);
+}
+.skill-tag.hot{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.section{padding:120px 6%}
+.section.alt{background:var(--cream)}
+
+.section-head{margin-bottom:72px}
+.section-head .eyebrow{margin-bottom:12px}
+.section-head h2{font-family:var(--serif);font-size:clamp(2.2rem,3.5vw,3.6rem);line-height:1.1;color:var(--ink);max-width:600px}
+.section-head p{font-size:1rem;color:var(--ink3);margin-top:16px;max-width:520px;line-height:1.8;font-weight:300}
+
+.feature-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border:1px solid var(--rule);
+}
+.feat{
+  padding:40px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  transition:background 0.3s;
+}
+.feat:hover{background:white}
+.feat:nth-child(3n){border-right:none}
+.feat:nth-child(4),.feat:nth-child(5),.feat:nth-child(6){border-bottom:none}
+.feat-icon{
+  width:40px;height:40px;border:1px solid var(--rule);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:24px;
+  font-size:18px;color:var(--gold);background:white;
+}
+.feat h3{font-family:var(--serif);font-size:1.2rem;margin-bottom:12px;color:var(--ink)}
+.feat p{font-size:0.875rem;line-height:1.75;color:var(--ink3);font-weight:300}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative;margin-top:32px}
+.steps::before{
+  content:"";position:absolute;top:24px;left:calc(16.67% + 24px);
+  width:calc(66.67% - 48px);height:1px;background:var(--rule);z-index:0;
+}
+.step{padding:0 32px 0 0;position:relative;z-index:1}
+.step-num{
+  width:48px;height:48px;border-radius:50%;border:1.5px solid var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:1.1rem;margin-bottom:24px;background:var(--paper);
+}
+.step h3{font-family:var(--serif);font-size:1.15rem;margin-bottom:10px}
+.step p{font-size:0.875rem;line-height:1.75;color:var(--ink3);font-weight:300}
+
+.cta-section{
+  padding:120px 6%;text-align:center;
+  background:var(--ink);color:var(--paper);
+  position:relative;overflow:hidden;
+}
+.cta-section::before{
+  content:"RESUME";position:absolute;font-family:var(--serif);font-size:22vw;
+  color:rgba(255,255,255,0.03);font-weight:400;top:50%;left:50%;
+  transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;
+}
+.cta-section .eyebrow{color:var(--gold2)}
+.cta-section .eyebrow::before{background:var(--gold2)}
+.cta-section h2{font-family:var(--serif);font-size:clamp(2.5rem,5vw,5rem);max-width:760px;margin:0 auto 24px;line-height:1.05}
+.cta-section p{font-size:1.05rem;color:rgba(245,242,235,0.6);max-width:480px;margin:0 auto 44px;line-height:1.8;font-weight:300}
+.btn-fill.inv{background:var(--paper);color:var(--ink)}
+.btn-fill.inv:hover{background:var(--cream)}
+
+footer{
+  padding:36px 6%;border-top:1px solid var(--rule);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+}
+footer .logo{font-size:1.1rem}
+footer p{font-size:0.8rem;color:var(--ink3)}
+
+@keyframes barIn{from{width:0}to{width:var(--w)}}
+.bar-fill{animation:barIn 1.2s 0.4s both}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.hero-left{animation:fadeUp 0.8s 0.1s both}
+.hero-right{animation:fadeUp 0.8s 0.3s both}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding:100px 5% 60px}
+  .hero::before{display:none}
+  .hero-right{background:var(--cream);padding:32px;border-radius:4px}
+  .feature-grid{grid-template-columns:1fr 1fr}
+  .feat:nth-child(3n){border-right:1px solid var(--rule)}
+  .feat:nth-child(2n){border-right:none}
+  .steps{grid-template-columns:1fr;gap:40px}
+  .steps::before{display:none}
+  nav ul{display:none}
+}
+@media(max-width:600px){
+  .feature-grid{grid-template-columns:1fr}
+  .feat:nth-child(n){border-right:none}
+  .proof-strip{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Resume<span>AI</span></div>
+  <ul>
+    <li><a href="#">Templates</a></li>
+    <li><a href="#">Features</a></li>
+    <li><a href="#">Pricing</a></li>
+  </ul>
+  <a href="#" class="nav-btn">Start free</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">AI-Powered Career Builder</div>
+    <h1>Land the role you <em>actually</em> want.</h1>
+    <p class="hero-desc">Generate recruiter-ready resumes and personal portfolio sites in minutes. Tailored to your voice, optimised for every ATS.</p>
+    <div class="btn-row">
+      <a href="#" class="btn-fill">Build my resume</a>
+      <a href="#" class="btn-ghost">See live demo</a>
+    </div>
+    <div class="proof-strip">
+      <div class="proof-item">
+        <span class="proof-num">98%</span>
+        <span class="proof-label">Interview rate</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">10k+</span>
+        <span class="proof-label">Professionals</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">4.9★</span>
+        <span class="proof-label">User rating</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="card-stack">
+      <div class="card-header">
+        <div>
+          <div class="card-name">Alex Carter</div>
+          <div class="card-role">Full Stack Developer · San Francisco</div>
+        </div>
+        <div class="score-badge">
+          <span class="num">94</span>
+          <span class="lbl">Score</span>
+        </div>
+      </div>
+      <div class="ats-bar">
+        <div class="ats-label"><span>ATS compatibility</span><span>97%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="--w:97%;width:97%"></div></div>
+      </div>
+      <div class="ats-bar">
+        <div class="ats-label"><span>Keyword match</span><span>91%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="--w:91%;width:91%"></div></div>
+      </div>
+      <div class="ats-bar">
+        <div class="ats-label"><span>Readability</span><span>88%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="--w:88%;width:88%"></div></div>
+      </div>
+      <div>
+        <div style="font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">Skills detected</div>
+        <div class="skill-row">
+          <span class="skill-tag hot">React</span>
+          <span class="skill-tag hot">Next.js</span>
+          <span class="skill-tag">UI/UX</span>
+          <span class="skill-tag">AI</span>
+          <span class="skill-tag">Node</span>
+          <span class="skill-tag">TypeScript</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="section-head">
+    <div class="eyebrow">How it works</div>
+    <h2>From blank page to hired in three steps.</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Paste your experience</h3>
+      <p>Drop in your work history, skills, and bio. Rough notes work just as well as a polished draft — our AI handles the rest.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>AI refines & optimises</h3>
+      <p>We rewrite your bullet points for impact, match keywords to your target role, and score against ATS requirements.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Export or publish</h3>
+      <p>Download a PDF-ready resume or go live with your personal portfolio site — one click, zero code needed.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="eyebrow">Features</div>
+    <h2>Everything you need to get noticed.</h2>
+    <p>Thoughtfully built for developers, creatives, and every professional in between.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feat">
+      <div class="feat-icon"><i class="ti ti-sparkles" aria-hidden="true"></i></div>
+      <h3>AI resume generator</h3>
+      <p>Instant professional resumes written for your role, optimised for modern ATS systems, and sounding like you.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><i class="ti ti-world" aria-hidden="true"></i></div>
+      <h3>Portfolio websites</h3>
+      <p>Turn any resume into a live, shareable personal website with a single click. No hosting headaches.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><i class="ti ti-pencil" aria-hidden="true"></i></div>
+      <h3>Smart rewriting</h3>
+      <p>AI rewrites your experience to sound confident and achievement-led — without losing your authentic voice.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><i class="ti ti-layout-grid" aria-hidden="true"></i></div>
+      <h3>Elegant templates</h3>
+      <p>Minimal, editorial, and premium-feeling designs. Each template is crafted to hold recruiter attention.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><i class="ti ti-download" aria-hidden="true"></i></div>
+      <h3>One-click export</h3>
+      <p>PDF or live link — ready to share in seconds. Resumes always render pixel-perfect across every viewer.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><i class="ti ti-badge" aria-hidden="true"></i></div>
+      <h3>Personal branding</h3>
+      <p>Consistent identity across resume, portfolio, and LinkedIn. Build a presence that people actually remember.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="eyebrow">Get started</div>
+  <h2>Your next job starts with a great resume.</h2>
+  <p>Build something memorable, modern, and unforgettable — in minutes, not days.</p>
+  <a href="#" class="btn-fill inv">Create your resume — it's free</a>
+</section>
+
+<footer>
+  <div class="logo">Resume<span style="color:var(--gold)">AI</span></div>
+  <p>© 2026 ResumeAI. Built for creators, developers & professionals.</p>
+</footer>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</body>
+</html>
